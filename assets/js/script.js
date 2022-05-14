@@ -1,7 +1,12 @@
 const button = document.querySelector("#btn");
-const mainContainer = document.querySelector(".gen-container");
+const mainContainer = document.querySelector(".value-container");
 
 const generateNum = () => {
+  console.log(mainContainer.hasChildNodes());
+  if (mainContainer.hasChildNodes()) {
+    mainContainer.removeChild(mainContainer.childNodes);
+  }
+
   const container = document.createElement("div");
   container.className = "grid-container";
   mainContainer.appendChild(container);
@@ -27,10 +32,20 @@ const generateNum = () => {
   }
 };
 
-button.addEventListener("click", generateNum);
+const reset = () => {
+  if (mainContainer.hasChildNodes()) {
+    mainContainer.removeChild(mainContainer.firstChild);
+    generateNum();
+  } else {
+    generateNum();
+  }
+};
+
+button.addEventListener("click", reset);
 
 // 1-26 for powerball
 // 1-69 for first five #
 
 // TODO duplicate case
-// TODO removeChild elements when btn clicked
+
+// Q1. what would be an effective way to remove the childNodes when btn is clicked
