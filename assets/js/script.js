@@ -2,11 +2,6 @@ const button = document.querySelector("#btn");
 const mainContainer = document.querySelector(".value-container");
 
 const generateNum = () => {
-  console.log(mainContainer.hasChildNodes());
-  if (mainContainer.hasChildNodes()) {
-    mainContainer.removeChild(mainContainer.childNodes);
-  }
-
   const container = document.createElement("div");
   container.className = "grid-container";
   mainContainer.appendChild(container);
@@ -23,7 +18,7 @@ const generateNum = () => {
     const powerNum = Math.floor(Math.random() * 26 + 1);
     randomNumArray.push(powerNum);
   }
-  console.log(randomNumArray);
+ 
 
   for (let i = 0; i < randomNumArray.length; i++) {
     const generatedNum = document.createElement("p");
@@ -32,7 +27,7 @@ const generateNum = () => {
   }
 };
 
-const reset = () => {
+const initiate = () => {
   if (mainContainer.hasChildNodes()) {
     mainContainer.removeChild(mainContainer.firstChild);
     generateNum();
@@ -41,7 +36,7 @@ const reset = () => {
   }
 };
 
-button.addEventListener("click", reset);
+button.addEventListener("click", initiate);
 
 // 1-26 for powerball
 // 1-69 for first five #
