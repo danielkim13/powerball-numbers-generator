@@ -1,11 +1,8 @@
 const button = document.querySelector("#btn");
 const mainContainer = document.querySelector(".value-container");
 
-const generateNum = () => {
-  const container = document.createElement("div");
-  container.className = "grid-container";
-  mainContainer.appendChild(container);
-
+// generate first five random numbers **rule # between 1 thru 69.
+const initialNum = () => {
   randomNumArray = [];
 
   for (let i = 0; i < 5; i++) {
@@ -13,34 +10,52 @@ const generateNum = () => {
     randomNumArray.push(randomNum);
   }
 
-  randomNumArray.sort();
-  if (randomNumArray.length > 0) {
-    const powerNum = Math.floor(Math.random() * 26 + 1);
-    randomNumArray.push(powerNum);
-  }
- 
+  findDuplicate(randomNumArray);
+};
 
-  for (let i = 0; i < randomNumArray.length; i++) {
-    const generatedNum = document.createElement("p");
-    container.appendChild(generatedNum);
-    generatedNum.innerText = randomNumArray[i];
+// parse the array and find if there is a dup.
+const findDuplicate = (initialArray) => {
+  const set = new Set(initialArray);
+  if (initialArray.length === set.size) {
+    finalStep(initialArray);
+  } else {
+    initialNum();
   }
 };
 
+// final step will sort through the non-dup array and add final powerball # **rule # between 1 thru 26
+const finalStep = async (array) => {
+  const container = document.createElement("div");
+  container.className = "grid-container";
+  mainContainer.appendChild(container);
+  const sortedArray = await array.sort((a, b) => {
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  const powerNum = Math.floor(Math.random() * 26 + 1);
+  sortedArray.push(powerNum);
+
+  for (let i = 0; i < sortedArray.length; i++) {
+    const NumEl = document.createElement("p");
+    container.appendChild(NumEl);
+    NumEl.innerText = array[i];
+  }
+};
+
+// looking for pre-existing elements and remove. This function ensures a set of number display at a time
 const initiate = () => {
   if (mainContainer.hasChildNodes()) {
     mainContainer.removeChild(mainContainer.firstChild);
-    generateNum();
+    initialNum();
   } else {
-    generateNum();
+    initialNum();
   }
 };
 
 button.addEventListener("click", initiate);
-
-// 1-26 for powerball
-// 1-69 for first five #
-
-// TODO duplicate case
-
-// Q1. what would be an effective way to remove the childNodes when btn is clicked
